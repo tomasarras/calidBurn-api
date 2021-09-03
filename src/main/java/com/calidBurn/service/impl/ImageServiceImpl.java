@@ -35,6 +35,7 @@ public class ImageServiceImpl implements ImageService {
 		this.imagesFolder = imagesFolder;
 		this.productService = productService;
 		makeDirectoryIfNotExist(imagesFolder);
+		makeDirectoryIfNotExist(imagesFolder.concat("/signatures"));
 	}
 	
 	private void makeDirectoryIfNotExist(String path) {
@@ -65,6 +66,20 @@ public class ImageServiceImpl implements ImageService {
 	public byte[] getImageByPath(String imageName) throws Exception {
 		InputStream in = new FileInputStream(imagesFolder.concat("/").concat(imageName));
 		return IOUtils.toByteArray(in);
+	}
+
+	@Override
+	public void uploadSignatureToProduct(MultipartFile image, Product product) {
+		String fileName = product.getId().toString();
+		String fileExtension = FilenameUtils.getExtension(image.getOriginalFilename());
+		String completeFileName = fileName.concat(".png");
+		String path = imagesFolder.concat("/signatures/").concat(completeFileName);
+        Path fileNamePath = Paths.get(path);
+        try {
+        	Files.write(fileNamePath, image.getBytes());
+        } catch (IOException e) {
+        	System.out.println(e);
+        }
 	}
 
 	

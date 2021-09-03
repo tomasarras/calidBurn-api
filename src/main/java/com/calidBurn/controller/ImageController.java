@@ -72,4 +72,29 @@ public class ImageController {
 			return null;
 		}
 	}
+	
+	/**
+	 * Upload one signature image to one {@link Product}
+	 * @param productId of the {@link Product}
+	 * @param image to upload
+	 * @param usename of the {@link User}
+	 * @return {@link ResponseEntity} with {@link HttpStatus#OK} and {@link Product} with image uploaded
+	 * @return {@link ResponseEntity} with {@link HttpStatus#NOT_FOUND} {@link Product} not found
+	 */
+	@PostMapping("/products/{productId}/signature")
+	public ResponseEntity<Void> uploadSignatureToOneProduct(
+			@PathVariable int productId,
+			@RequestParam("image") MultipartFile image,
+			@AuthenticationPrincipal String usename
+			) {
+		
+		try {
+			Product product = productService.getById(productId);
+			imageService.uploadSignatureToProduct(image, product);
+			return ResponseEntity.ok().build();
+		} catch (ProductNotFoundException e) {
+			return ResponseEntity.notFound().build();
+		}
+
+	}
 }

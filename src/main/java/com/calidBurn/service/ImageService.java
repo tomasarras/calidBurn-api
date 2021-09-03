@@ -21,4 +21,12 @@ public interface ImageService {
 	 * @throws {@link Exception} image not found
 	 */
 	byte[] getImageByPath(String imageName) throws Exception;
+
+	/**
+	 * Upload one signature to one {@link Product}
+	 * @param image to upload
+	 * @param {@link Product}
+	 * @return {@link Product} with image uploaded
+	 */
+	void uploadSignatureToProduct(MultipartFile image, Product product);
 }
