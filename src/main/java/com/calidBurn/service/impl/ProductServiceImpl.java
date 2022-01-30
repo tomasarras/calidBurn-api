@@ -52,9 +52,10 @@ public class ProductServiceImpl implements ProductService {
 		Product product = Product.builder()
 				.id(original.getId())
 				.name(data.getName())
+				.publisher(original.getPublisher())
 				.price(data.getPrice())
 				.description(data.getDescription())
-				.imageName(data.getImageName())
+				.imageName(original.getImageName())
 				.build();
 		
 		return productRepository.save(product);
